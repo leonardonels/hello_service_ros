@@ -1,0 +1,5 @@
+hello_service_ros_node:
+  ros__parameters:
+    orin_on_topic: "/orin/on"
+    orin_on: true
+    topic_hz: 10.0
