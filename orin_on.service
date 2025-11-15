@@ -1,0 +1,14 @@
+[Unit]
+After=network-online.target
+Description=ROS2 OrinOn service
+
+[Service]
+User=orin
+Group=orin
+ExecStart=/bin/bash -c 'source /opt/ros/humble/setup.bash; source /home/orin/ros2_ws/install/setup.bash; ros2 launch as_drive as_drive_launch.py;'
+RemainAfterExit=no
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=default.target
