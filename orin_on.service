@@ -1,14 +1,12 @@
 [Unit]
-After=network-online.target
 Description=ROS2 OrinOn service
+After=network.target
 
 [Service]
 User=orin
 Group=orin
-ExecStart=/bin/bash -c 'source /opt/ros/humble/setup.bash; source /home/orin/ros2_ws/install/setup.bash; ros2 launch hello_service_ros hello.launch.py;'
-RemainAfterExit=no
-Restart=on-failure
-RestartSec=2s
+RemainAfterExit=yes
+ExecStart=/bin/bash /home/orin/ros2_ws/src/orin-test/src/0_common/hello_service_ros/orin_on.sh
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target

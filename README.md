@@ -47,16 +47,22 @@ ros2 launch hello_service_ros hello.launch.py
 
 To run this node automatically on system startup using systemd:
 
-1. **Copy the service file to systemd directory:**
+> Note: the hello service code has been updated. To make it easier to iterate on the service file during development (and avoid stale duplicates), please create a symbolic link from the package's `.service` file into `/etc/systemd/system` instead of copying the file.
+
+1. **Create a symlink to the service file (preferred):**
+   Use an absolute path to the `orin_on.service` file in your workspace and create a symbolic link in `/etc/systemd/system`:
    ```bash
-   sudo cp src/hello_service_ros/orin_on.service /etc/systemd/system/
+   sudo ln -sf /home/youruser/ros2_ws/src/orin-test/src/0_common/hello_service_ros/orin_on.service /etc/systemd/system/orin_on.service
    ```
 
-2. **Update the service file if needed:**
-   Edit `/etc/systemd/system/orin_on.service` and verify:
-   - The `User` and `Group` match your username
-   - The paths in `ExecStart` are correct for your ROS2 installation
-   
+   - Replace `/home/youruser/ros2_ws` with your workspace root as needed.
+   - Using a symlink makes iterative edits easier: update the source `.service` file in the repo and then run `sudo systemctl daemon-reload` to pick up changes.
+
+2. **Verify and update the service file if needed:**
+   Inspect `/etc/systemd/system/orin_on.service` and verify:
+   - The `User` and `Group` match the account that should run the node.
+   - The paths in `ExecStart` point to the correct ROS2 install and the package's executable (use absolute paths).
+
 3. **Enable and start the service:**
    ```bash
    sudo systemctl daemon-reload
@@ -64,13 +70,9 @@ To run this node automatically on system startup using systemd:
    sudo systemctl start orin_on.service
    ```
 
-4. **Check service status:**
+4. **Check service status and logs:**
    ```bash
    sudo systemctl status orin_on.service
-   ```
-
-5. **View logs:**
-   ```bash
    journalctl -u orin_on.service -f
    ```
 
