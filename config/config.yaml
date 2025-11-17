@@ -3,3 +3,5 @@ hello_service_ros_node:
     orin_on_topic: "/orin/on"
     orin_on: true
     topic_hz: 10.0
+    node_active_duration: 5.0  # Tempo in secondi in cui il nodo rimane attivo
+    node_pause_duration: 3.0   # Tempo in secondi di pausa prima di ricreare il nodo
