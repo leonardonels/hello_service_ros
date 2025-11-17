@@ -18,9 +18,7 @@ int main(int argc, char * argv[])
   temp_node.reset();
 
   while (rclcpp::ok())
-  {
-    RCLCPP_INFO(rclcpp::get_logger(), "Creating hello node");
-    
+  {    
     auto node = std::make_shared<HelloService>();
     
     auto start_time = std::chrono::steady_clock::now();
@@ -32,12 +30,9 @@ int main(int argc, char * argv[])
       rclcpp::spin_some(node);
       std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    
-    RCLCPP_INFO(rclcpp::get_logger(), "Destroing hello node");
-    
+        
     node.reset();
     
-    RCLCPP_INFO(rclcpp::get_logger(), "Sleep");
     std::this_thread::sleep_for(std::chrono::duration<double>(pause_duration));
   }
 
