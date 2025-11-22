@@ -5,3 +5,4 @@ hello_service_ros_node:
     topic_hz: 10.0
     node_active_duration: 5.0
     node_pause_duration: 3.0
+    keep_running: false

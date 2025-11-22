@@ -3,15 +3,16 @@
 HelloService::HelloService() : Node("hello_service_ros")
 {
     loadParameters();
-    //rclcpp::QoS qos(rclcpp::KeepLast(1));
-    //qos.reliability(RMW_QOS_POLICY_RELIABILITY_RELIABLE);
+    const auto transientLocalQOS = rclcpp::QoS(1)
+      .reliable()
+      .keep_last(1)
+      .transient_local();
 
     RCLCPP_INFO(this->get_logger(), "HelloService initialized - orin_on: %s, topic: %s, hz: %.1f", 
                 this->orin_on ? "true" : "false", this->orin_on_topic.c_str(), this->topic_hz);
     
     timer = this->create_wall_timer(std::chrono::duration<double>(1.0 / this->topic_hz), std::bind(&HelloService::sendOrinOn, this));
-    //hello_pub = this->create_publisher<std_msgs::msg::Bool>(this->orin_on_topic, qos);
-    hello_pub = this->create_publisher<std_msgs::msg::Bool>(this->orin_on_topic, 10);
+    hello_pub = this->create_publisher<std_msgs::msg::Bool>(this->orin_on_topic, transientLocalQOS);
 }
 
 void HelloService::loadParameters()
